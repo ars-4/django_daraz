@@ -1,0 +1,14 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+<h1>The User Page</h1>
+<p>{{ person.username.username }}</p>
+<p>{{ person.mobile }}</p>
+<p>{{ person.username.groups.all.0 }}</p>
+<img src="{{ person.profile_picture.url }}" alt="">
+
+
+
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -11,15 +12,16 @@ class BaseModel(models.Model):
 
 
 class Person(BaseModel):
-    username=models.CharField(max_length=244, null=True)
+    username=models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     first_name=models.CharField(max_length=244, null=True)
     last_name=models.CharField(max_length=244, null=True)
     email=models.CharField(max_length=244, null=True)
     mobile=models.CharField(max_length=15, null=True)
     profile_picture=models.ImageField(upload_to='profiles', null=True)
+    address=models.CharField(max_length=244, null=True)
 
     def __str__(self):
-        return self.username
+        return self.username.username
 
 
 class Picture(BaseModel):
@@ -44,6 +46,8 @@ class Product(BaseModel):
     images=models.ForeignKey(Picture, on_delete=models.CASCADE)
     seller=models.ForeignKey(Shop, on_delete=models.CASCADE)
     title=models.CharField(max_length=244, null=True)
+    price=models.CharField(max_length=244, null=True)
+    stock=models.CharField(max_length=244, null=True)
 
     def __str__(self):
         return self.title
