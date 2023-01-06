@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body>
+    <div class="row">
+        <div class="loginpage">
+            <form action="" method="post">
+                {% csrf_token %}
+                <h3 class="text-light">Login</h3>
+                <br>
+                <input placeholder="Username" type="text" name="username" class="form-control">
+                <br>
+                <input placeholder="Password" type="text" name="password" class="form-control">
+                <br>
+                <button class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,4 +1,6 @@
 from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.contrib.auth.models import User
 
 
 
@@ -21,3 +23,12 @@ def multi_role(allowed_roles=[]):
                 return HttpResponse("Please Log in")
         return wrapper_func
     return decorator
+
+
+def user_logged_in(view_func):
+    def wrapper_func(request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            return redirect('UserPage')
+        else:
+            return redirect('LoginPage')
+    return wrapper_func

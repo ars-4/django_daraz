@@ -1,14 +1,43 @@
 {% extends 'main.html' %}
-
+{% load static %}
 {% block content %}
 
 
-<h1>The User Page</h1>
-<p>{{ person.username.username }}</p>
-<p>{{ person.mobile }}</p>
-<p>{{ person.username.groups.all.0 }}</p>
-<img src="{{ person.profile_picture.url }}" alt="">
 
+<div class="row userpage">
+    <div class="col-md-3">
+        <div class="image-container">
+            <label for="upload_file">
+                <img src="{{ person.profile_picture.url }}" alt="">
+            </label>
+        </div>
+        <input type="file" hidden id="upload_file">
+        <br>
+        <div class="userinfo">
+            <div class="content">
+                <input type="text" class="form-control" disabled placeholder="{{ person.username.groups.all.0 }}"
+                    value="role: {{ person.username.groups.all.0 }}">
+                <br>
+                <input type="text" class="form-control" placeholder="{{ person.username }}"
+                    value="{{ person.username }}">
+                <br>
+                <input type="text" class="form-control"
+                    placeholder="{{ person.first_name }} {{ person.last_name }}"
+                    value="{{ person.first_name }} {{ person.last_name }}">
+                <br>
+                <input type="text" class="form-control" placeholder="{{ person.email }}" value="{{ person.email }}">
+                <br>
+                <input type="text" class="form-control" placeholder="{{ person.mobile }}" value="{{ person.mobile }}">
+                <br>
+                <input type="text" class="form-control" placeholder="{{ person.address }}" value="{{ person.address }}">
+            </div>
+        </div>
+        <br>
+        <button class="btn btn-primary">Update</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-danger">Delete my account</button>
+    </div>
+</div>
 
 
 {% endblock %}

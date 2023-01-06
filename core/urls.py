@@ -4,5 +4,5 @@ from core import views
 urlpatterns = [
     path('', views.index),
 
-    path('user/', views.user_page)
+    path('user/', views.user_page, name='UserPage')
 ]
