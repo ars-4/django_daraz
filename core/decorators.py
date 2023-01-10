@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 
@@ -11,7 +11,7 @@ def multi_role(allowed_roles=[]):
             group = None
 
             if request.user is None or request.user == 'AnonymousUser':
-                return HttpResponse("Please Log In")
+                return redirect('ForbiddenPage')
 
             if request.user.groups.exists():
                 group = request.user.groups.all()[0].name
@@ -20,7 +20,7 @@ def multi_role(allowed_roles=[]):
                 return view_func(request, *args, **kwargs)
 
             else:
-                return HttpResponse("Please Log in")
+                return redirect("ForbiddenPage")
         return wrapper_func
     return decorator
 
@@ -28,7 +28,7 @@ def multi_role(allowed_roles=[]):
 def user_logged_in(view_func):
     def wrapper_func(request, *args, **kwargs):
         if request.user.is_authenticated == True:
-            return redirect('UserPage')
+            return redirect('HomePage')
         else:
             return redirect('LoginPage')
     return wrapper_func

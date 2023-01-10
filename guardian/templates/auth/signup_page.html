@@ -1,16 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="">
-        <input type="text" name="" id="">
-        <input type="text" name="" id="">
-        <input type="text" name="" id="">
-    </form>
-</body>
-</html>
+{% extends 'guardian/main.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="row">
+    <div class="registerpage">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <h3 class="text-light">Register</h3>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <input placeholder="Username" type="text" name="username" class="form-control" required>
+                </div>
+                <br><br>
+                <div class="col-md-6">
+                    <input placeholder="Email" type="text" name="email" class="form-control" required>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <input placeholder="First Name" type="text" name="first_name" class="form-control" required>
+                </div>
+                <br><br>
+                <div class="col-md-6">
+                    <input placeholder="Last Name" type="text" name="last_name" class="form-control" required>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <input placeholder="Password" type="text" name="password1" class="form-control" required>
+                </div>
+                <br><br>
+                <div class="col-md-6">
+                    <input placeholder="Confirm Password" type="text" name="password2" class="form-control" required>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <input placeholder="Mobile" type="text" name="mobile" class="form-control" required>
+                </div>
+                <br><br>
+                <div class="col-md-6">
+                    <div class="form-control btn-control">
+                        <button class="btn btn-primary col-md-2 fa fa-map-marker-alt" onclick="getLocation()"></button>
+                        &nbsp;&nbsp;&nbsp;
+                        <input type="text" id="id_address" class="col-md-8" name="address" placeholder="Address" required>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <button class="btn btn-primary">Register</button>
+            <a class="btn btn-secondary" href="{% url 'LoginPage' %}">Login</a>
+        </form>
+        <script>
+            var x = document.getElementById("id_address");
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                } else {
+                    alert("Geolocation is not supported by this browser.");
+                }
+            }
+
+            function showPosition(position) {
+                x.value = position.coords.latitude +" " +position.coords.longitude;
+            }
+        </script>
+    </div>
+</div>
+{% endblock %}

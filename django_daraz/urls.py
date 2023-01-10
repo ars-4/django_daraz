@@ -3,6 +3,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views import defaults
+from guardian import views
+
+defaults.page_not_found = views.not_found_view
+handler404 = views.not_found_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -12,12 +12,18 @@
 <body>
 
     <div class="nav">
-        <div class="brand-name">&nbsp;Home</div>
+        <div class="brand-name">&nbsp;
+            {% if request.user.groups.all.0.name == 'admin' %}
+            <a href="{% url 'IndexPage' %}" class="text-dark">Home</a>
+            {% else %}
+            <a href="{% url 'HomePage' %}" class="text-dark">Home</a>
+            {% endif %}
+        </div>
         <div class="navbar">
             <div class="links">
                 <a href="" class="nav-link">About</a>
                 <a href="" class="nav-link">Contact</a>
-                <a href="{% url 'LogoutPage' %}" class="nav-link">Logout</a>
+                <a href="{% url 'LogoutPage' %}" class="nav-link text-danger">Logout</a>
             </div>
         </div>
     </div>

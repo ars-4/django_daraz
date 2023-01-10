@@ -5,13 +5,20 @@
 
 
 <div class="row userpage">
-    <div class="col-md-3">
+    <form class="col-md-3" method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
         <div class="image-container">
-            <label for="upload_file">
-                <img src="{{ person.profile_picture.url }}" alt="">
+            <label for="id_profile_picture">
+                {% if person.profile_picture %}
+                <img src="{{ person.profile_picture.url }}" alt="" width="100%">
+                {% else %}
+                <div class="empty_box">
+                    <p>Click here to upload Picture</p>
+                </div>
+                {% endif %}
             </label>
         </div>
-        <input type="file" hidden id="upload_file">
+        <input type="file" hidden name="profile_picture" accept="image/*" id="id_profile_picture">
         <br>
         <div class="userinfo">
             <div class="content">
@@ -21,21 +28,100 @@
                 <input type="text" class="form-control" placeholder="{{ person.username }}"
                     value="{{ person.username }}">
                 <br>
-                <input type="text" class="form-control"
-                    placeholder="{{ person.first_name }} {{ person.last_name }}"
-                    value="{{ person.first_name }} {{ person.last_name }}">
+                <div style="display:flex">
+                    <input type="text" value="{{ person.first_name }}" placeholder="{{ person.first_name }}"
+                        name="first_name" class="form-control">
+                    &nbsp;
+                    <input type="text" value="{{ person.last_name }}" placeholder="{{ person.last_name }}"
+                        name="last_name" class="form-control">
+                </div>
                 <br>
-                <input type="text" class="form-control" placeholder="{{ person.email }}" value="{{ person.email }}">
+                <input type="text" class="form-control" placeholder="{{ person.email }}" value="{{ person.email }}"
+                    name="email">
                 <br>
-                <input type="text" class="form-control" placeholder="{{ person.mobile }}" value="{{ person.mobile }}">
+                <input type="text" class="form-control" placeholder="{{ person.mobile }}" value="{{ person.mobile }}"
+                    name="mobile">
                 <br>
-                <input type="text" class="form-control" placeholder="{{ person.address }}" value="{{ person.address }}">
+                <input type="text" class="form-control" placeholder="{{ person.address }}" value="{{ person.address }}"
+                    name="address">
             </div>
         </div>
         <br>
+        {% if person.username == request.user %}
         <button class="btn btn-primary">Update</button>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <button class="btn btn-danger">Delete my account</button>
+        {% endif %}
+    </form>
+    <div class="col-md-9">
+        {% if person.username.groups.all.0.name == 'seller' %}
+        <div class="content">
+            <h2>Store</h2>
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="store_picture">
+                        <label for="id_picture_one">
+                            <div class="image-container">
+                                <img src="https://i.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU"
+                                    alt="">
+                            </div>
+                        </label>
+                        <input type="file" id="id_picture_one" hidden>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="store_picture">
+                        <label for="id_picture_two">
+                            <div class="image-container">
+                                <img src="https://i.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU"
+                                    alt="">
+                            </div>
+                        </label>
+                        <input type="file" id="id_picture_two" hidden>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="store_picture">
+                        <label for="id_picture_three">
+                            <div class="image-container">
+                                <img src="https://i.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU"
+                                    alt="">
+                            </div>
+                        </label>
+                        <input type="file" id="id_picture_three" hidden>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="info row">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="Shop Name">
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" placeholder="Address">
+                </div>
+            </div>
+            <br>
+            {% if person.username == request.user %}
+            <a href="#" class="btn btn-primary">Update</a>
+            {% endif %}
+        </div>
+        <br>
+        <div class="content">
+            <h2>Products</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="store_picture">
+                        <div class="image-container">
+                            <img src="https://i.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU"
+                                alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 
