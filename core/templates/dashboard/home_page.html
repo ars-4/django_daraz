@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="homepage">
+
+    <div class="products_section row">
+        {% for product in products %}
+        <div class="col-md-2">
+            <div class="product">
+                <div class="image-container">
+                    <img src="{{ product.images.image.url }}" alt="">
+                </div>
+                <br>
+                <div class="content">
+                    <p>The Product has description maybe a long one but multi line atleast
+                        <br>
+                        <a href="{% url 'UserByUsername' product.seller.owner.username %}" class="text-dark">{{ product.seller }}</a>
+
+                    </p>
+                    <div class="form-control">
+                        <span>&nbsp;</span>
+                        <input type="number" value="0">
+                        <a href="#" class="btn btn-primary">+ Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

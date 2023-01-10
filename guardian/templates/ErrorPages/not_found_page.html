@@ -1,0 +1,14 @@
+{% extends 'guardian/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="forbidden">
+    <div class="content">
+        <h1>Not Found</h1>
+        <p>Sorry, The content you are looking for is not here.<br>Please contact site administrator incase of any issues.</p>
+        <a href="{% url 'UserPage' %}" class="btn btn-primary">Go Back</a>
+    </div>
+</div>
+
+{% endblock %}

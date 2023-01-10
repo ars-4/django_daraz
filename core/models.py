@@ -17,7 +17,7 @@ class Person(BaseModel):
     last_name=models.CharField(max_length=244, null=True)
     email=models.CharField(max_length=244, null=True)
     mobile=models.CharField(max_length=15, null=True)
-    profile_picture=models.ImageField(upload_to='profiles', null=True)
+    profile_picture=models.ImageField(upload_to='profiles', null=True, blank=True)
     address=models.CharField(max_length=244, null=True)
 
     def __str__(self):
@@ -53,3 +53,10 @@ class Product(BaseModel):
         return self.title
 
 
+class Order(BaseModel):
+    customer = models.ForeignKey(Person, on_delete=models.CASCADE, null=True)
+    products = models.ManyToManyField(Product)
+    description = models.TextField(null=True)
+
+    def __str__(self):
+        return str(self.id)

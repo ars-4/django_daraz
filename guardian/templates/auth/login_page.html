@@ -1,0 +1,21 @@
+{% extends 'guardian/main.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="row">
+    <div class="loginpage">
+        <form action="" method="post">
+            {% csrf_token %}
+            <h3 class="text-light">Login</h3>
+            <br>
+            <input placeholder="Username" type="text" name="username" class="form-control">
+            <br>
+            <input placeholder="Password" type="text" name="password" class="form-control">
+            <br>
+            <button class="btn btn-primary">Login</button>
+            <a class="btn btn-secondary" href="{% url 'SignUpPage' %}">Register</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,184 @@
+@import url('bootstrap.min.css');
+@import url('fonts/rubik.css');
+
+body {
+    font-family: 'Rubik';
+    background: url("https://images.unsplash.com/photo-1556740714-a8395b3bf30f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80");
+    overflow-x: hidden;
+    background-attachment: fixed;
+}
+
+
+
+/* Core */
+.nav {
+    background-color: rgba(244, 244, 244, 0.4);
+    backdrop-filter: blur(5px);
+}
+.nav .brand-name {
+    font-size: 40px;
+}
+.nav .brand-name a {
+    text-decoration: none;
+}
+.nav .navbar .links {
+    display:flex;
+    margin-left: 350%;
+    width: 100%;
+}
+@media screen and (max-width:400px) {
+    .nav .navbar .links {
+        margin-left: 0;
+    }
+}
+
+
+.homepage {
+    padding: 15px;
+    margin: 1%;
+    border-radius: 14px;
+    background-color: rgba(244, 244, 244, 0.4);
+    backdrop-filter: blur(5px);
+}
+.homepage .products_section {
+    overflow-x: hidden;
+}
+.homepage .products_section .col-md-2 {
+    padding: 10px;
+}
+.homepage .products_section .col-md-2 .product {
+    border-radius: 14px;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+}
+.homepage .products_section .col-md-2 .image-container {
+    border-radius: 14px;
+    overflow: hidden;
+}
+.homepage .products_section .col-md-2 .image-container img {
+    width: 100%;
+}
+.homepage .products_section .col-md-2 .content {
+    padding: 10px;
+    padding-top: 0;
+    font-size: 12px;
+    text-align: center;
+}
+.homepage .products_section .col-md-2 .content .form-control {
+    display:flex;
+    padding: 0;
+    width: 100%;
+}
+.homepage .products_section .col-md-2 .content .form-control input {
+    width: 54%;
+    outline: none;
+    border: 0;
+}
+.homepage .products_section .col-md-2 .content .form-control span {
+    width: 2%;
+}
+.homepage .products_section .col-md-2 .content .form-control .btn-primary {
+    width: 44%;
+}
+
+
+
+.userpage {
+    padding: 20px;
+}
+.userpage .col-md-3 {
+    background-color: rgba(244, 244, 244, 0.4);
+    border-radius: 14px;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+.userpage .col-md-3 .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 14px;
+    overflow: hidden;
+}
+.empty_box {
+    text-align: center;
+    background-color: #242424;
+    width: 100%;
+    padding: 60px;
+    color: #fff;
+}
+.userpage .col-md-3 .userinfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.userpage .col-md-3 .userinfo .content {
+    width: 100%;
+    display:block;
+}
+.userpage .col-md-9 {
+    padding: 20px;
+    padding-top: 0;
+}
+.userpage .col-md-9 .content {
+    background-color: rgba(244, 244, 244, 0.4);
+    backdrop-filter: blur(5px);
+    border-radius: 14px;
+    padding: 20px;
+}
+.userpage .col-md-9 .content .col-md-4 .store_picture .image-container {
+    border-radius: 14px;
+    overflow: hidden;
+}
+.userpage .col-md-9 .content .col-md-4 .store_picture .image-container img {
+    width: 100%;
+}
+
+
+/* Guardian */
+.loginpage,
+.registerpage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginpage form,
+.registerpage form {
+    margin-top:10%;
+    display:block;
+    backdrop-filter: blur(15px);
+    border-radius: 14px;
+    padding: 20px;
+    background-color: rgba(244,244,244,0.3);
+}
+.registerpage form .btn-control {
+    display:flex;
+    padding:0;
+}
+.registerpage form .btn-control input,
+.registerpage form .btn-control input:active {
+    border: 0;
+    outline: none;
+}
+.registerpage form {
+    width: 600px;
+}
+.loginpage form {
+    width: 300px;
+}
+
+
+.forbidden {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-top: 20%;
+}
+.forbidden .content {
+    text-align: center;
+    background-color: rgba(244, 244, 244, 0.4);
+    backdrop-filter: blur(5px);
+    border-radius: 14px;
+    width: 300px;
+    padding: 20px;
+}
