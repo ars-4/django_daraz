@@ -21,7 +21,7 @@
         </div>
         <div class="navbar">
             <div class="links">
-                <a href="" class="nav-link">About</a>
+                <a href="{% url 'UserPage' %}" class="nav-link">{{ request.user }}</a>
                 <a href="" class="nav-link">Contact</a>
                 <a href="{% url 'LogoutPage' %}" class="nav-link text-danger">Logout</a>
             </div>
