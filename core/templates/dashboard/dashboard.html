@@ -1,0 +1,44 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+<h1>Dashboard</h1>
+<br>
+
+<div class="col-md-4">
+    <canvas id="PieChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    //PieChart
+    var xValuesForPieChart = []
+    {% for xval in xValues %}
+    xValuesForPieChart.push("{{ xval }}")
+    {% endfor %}
+    var yValuesForPieChart = {{ yValues }};
+    var barColors = [
+        "#b91d47",
+        "#00aba9",
+        "#2b5797",
+        "#e8c3b9",
+        "#1e7145"
+    ];
+
+    new Chart("PieChart", {
+        type: "pie",
+        data: {
+            labels: xValuesForPieChart,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValuesForPieChart
+            }]
+        }
+    });
+
+</script>
+
+{% endblock %}

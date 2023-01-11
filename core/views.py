@@ -14,7 +14,13 @@ from core.utils import get_or_create_shop, add_image, update_shop
 @login_required(login_url='LoginPage')
 @multi_role(allowed_roles=['admin'])
 def index(request):
-    return HttpResponse("The")
+    yValues = [99, 55, 46, 32, 15]
+    xValues = ["Area1", "Area2", "Area3", "Area4", "Area5"]
+    context = {
+        'yValues':yValues,
+        'xValues':xValues
+    }
+    return render(request, 'dashboard/dashboard.html', context)
 
 # Home
 @login_required(login_url='LoginPage')
@@ -35,11 +41,12 @@ def home_page(request):
 def user_read_page(request, username):
     user = User.objects.get(username=username)
     person = Person.objects.get(username=user)
+    shop_images = []
+    shop = Shop.objects.get(id=1)
     if person.username.groups.all()[0].name == 'seller':
         shop = get_or_create_shop(person)
-    if shop.images:
-        shop_images = shop.images.all().order_by('-id')[:3]
-
+        if shop.images:
+            shop_images = shop.images.all().order_by('-id')[:3]
     context = {
         'person':person,
         'user': user,
@@ -57,14 +64,12 @@ def user_page(request):
     user = User.objects.get(id=request.user.id)
     person = Person.objects.get(username=user)
     form = PersonUpdateForm(instance=person)
-
+    shop = Shop.objects.get(id=1)
+    shop_images = []
     if person.username.groups.all()[0].name == 'seller':
         shop = get_or_create_shop(person)
-    
-    if shop.images:
-        shop_images = shop.images.all().order_by('-id')[:3]
-    
-    
+        if shop.images:
+            shop_images = shop.images.all().order_by('-id')[:3]
     if request.method == 'POST':
         form = PersonUpdateForm(request.POST, request.FILES, instance=person)
         if request.user.id == person.username.id:
