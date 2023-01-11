@@ -102,9 +102,11 @@ body {
 .empty_box {
     text-align: center;
     background-color: #242424;
-    width: 100%;
+    width: 270px;
+    height: 200px;
     padding: 60px;
     color: #fff;
+    border-radius: 14px;
 }
 .userpage .col-md-3 .userinfo {
     display: flex;
@@ -130,7 +132,8 @@ body {
     overflow: hidden;
 }
 .userpage .col-md-9 .content .col-md-4 .store_picture .image-container img {
-    width: 100%;
+    width: 270px;
+    height: 200px;
 }
 
 

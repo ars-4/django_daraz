@@ -48,65 +48,84 @@
         </div>
         <br>
         {% if person.username == request.user %}
-        <button class="btn btn-primary">Update</button>
+        <button class="btn btn-primary" id="btn_person" onclick="update()">Update</button>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <button class="btn btn-danger">Delete my account</button>
         {% endif %}
     </form>
     <div class="col-md-9">
         {% if person.username.groups.all.0.name == 'seller' %}
-        <div class="content">
-            <h2>Store</h2>
+        <form class="content" method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2>Store {{ shop_images|length }}</h2>
             <br>
             <div class="row">
                 <div class="col-md-4">
                     <div class="store_picture">
-                        <label for="id_picture_one">
+                        <label for="id_shop_image_one">
+                            {% if shop_images.all.2 %}
                             <div class="image-container">
-                                <img src="https://i.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU"
+                                <img src="{{ shop_images.all.2.image.url }}"
                                     alt="">
                             </div>
+                            {% else %}
+                            <div class="empty_box">
+                                <p>Click here to upload Picture</p>
+                            </div>
+                            {% endif %}
                         </label>
-                        <input type="file" id="id_picture_one" hidden>
+                        <input type="file" name="shop_image_one" id="id_shop_image_one" hidden>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="store_picture">
-                        <label for="id_picture_two">
+                        <label for="id_shop_image_two">
+                            {% if shop_images.all.1 %}
                             <div class="image-container">
-                                <img src="https://i.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU"
+                                <img src="{{ shop_images.all.1.image.url }}"
                                     alt="">
                             </div>
+                            {% else %}
+                            <div class="empty_box">
+                                <p>Click here to upload Picture</p>
+                            </div>
+                            {% endif %}
                         </label>
-                        <input type="file" id="id_picture_two" hidden>
+                        <input type="file"  name="shop_image_two" id="id_shop_image_two"  hidden>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="store_picture">
                         <label for="id_picture_three">
+                            {% if shop_images.all.0 %}
                             <div class="image-container">
-                                <img src="https://i.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU"
+                                <img src="{{ shop_images.all.0.image.url }}"
                                     alt="">
                             </div>
+                            {% else %}
+                            <div class="empty_box">
+                                <p>Click here to upload Picture</p>
+                            </div>
+                            {% endif %}
                         </label>
-                        <input type="file" id="id_picture_three" hidden>
+                        <input type="file" name="shop_image_three" id="id_picture_three" hidden>
                     </div>
                 </div>
             </div>
             <br>
             <div class="info row">
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="Shop Name">
+                    <input type="text" class="form-control" name="shop_name" placeholder="Shop Name" value="{{ store.shop_name }}">
                 </div>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" placeholder="Address">
+                    <input type="text" class="form-control" name="shop_address" placeholder="Address" value="{{ store.address }}">
                 </div>
             </div>
             <br>
             {% if person.username == request.user %}
-            <a href="#" class="btn btn-primary">Update</a>
+            <button class="btn btn-primary" id="btn_shop" onclick="update()">Update</button>
             {% endif %}
-        </div>
+        </form>
         <br>
         <div class="content">
             <h2>Products</h2>
@@ -124,6 +143,14 @@
         {% endif %}
     </div>
 </div>
+{% if request.user == person.username %}
+<script>
+    function update() {
+        document.getElementById('btn_person').click()
+        document.getElementById('btn_shop').click()
+        }
+</script>
+{% endif %}
 
 
 {% endblock %}
