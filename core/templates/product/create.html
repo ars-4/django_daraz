@@ -1,0 +1,64 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <br><br><br><br><br><br>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-6">
+                    <label for="id_product_image">
+                        <div class="empty_box">
+                            <p>Click here to upload a picture</p>
+                        </div>
+                    </label>
+                    <input type="file" id="id_product_image" hidden name="product_image">
+                </div>
+                <div class="col-4">
+                    <h3>Product Details</h3>
+                    <input type="text" name="product_title" class="form-control" id="id_product_title" placeholder="Product Name" onfocusout="check_product_list()">
+                    <br>
+                    <div class="row">
+                        <div class="col-6"><input type="number" name="product_price" class="form-control" placeholder="Price"></div>
+                        <div class="col-6"><input type="number" name="product_stock" class="form-control" placeholder="Stock"></div>
+                    </div>
+                    <br>
+                    <button id="submit_btn" class="btn btn-primary">Create</button>
+                    <a href="{% url 'HomePage' %}" class="btn btn-danger">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+<script>
+    allowed_products = []
+    {% for prdcts in allowed_products %}
+    allowed_products.push("{{prdcts}}")
+    {% endfor %}
+    let submit_btn = document.getElementById('submit_btn')
+        submit_btn.disabled = true;
+    function check_product_list() {
+        let product_title = document.getElementById('id_product_title')
+        let is_product_okay = false
+        for(let i = 0; i < allowed_products.length; i++) {
+            let x = product_title.value.toLowerCase()
+            if(x.includes(allowed_products[i])) {
+                is_product_okay = true
+            }
+        }
+        if(is_product_okay) {
+            submit_btn.disabled = false
+        }
+        else {
+            submit_btn.disabled = true
+        }
+    }
+</script>
+
+{% endblock %}

@@ -57,7 +57,7 @@
         {% if person.username.groups.all.0.name == 'seller' %}
         <form class="content" method="POST" action="" enctype="multipart/form-data">
             {% csrf_token %}
-            <h2>Store {{ shop_images|length }}</h2>
+            <h2>{{store.shop_name}}</h2>
             <br>
             <div class="row">
                 <div class="col-md-4">
@@ -65,8 +65,7 @@
                         <label for="id_shop_image_one">
                             {% if shop_images.all.2 %}
                             <div class="image-container">
-                                <img src="{{ shop_images.all.2.image.url }}"
-                                    alt="">
+                                <img src="{{ shop_images.all.2.image.url }}" alt="">
                             </div>
                             {% else %}
                             <div class="empty_box">
@@ -82,8 +81,7 @@
                         <label for="id_shop_image_two">
                             {% if shop_images.all.1 %}
                             <div class="image-container">
-                                <img src="{{ shop_images.all.1.image.url }}"
-                                    alt="">
+                                <img src="{{ shop_images.all.1.image.url }}" alt="">
                             </div>
                             {% else %}
                             <div class="empty_box">
@@ -91,7 +89,7 @@
                             </div>
                             {% endif %}
                         </label>
-                        <input type="file"  name="shop_image_two" id="id_shop_image_two"  hidden>
+                        <input type="file" name="shop_image_two" id="id_shop_image_two" hidden>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -99,8 +97,7 @@
                         <label for="id_picture_three">
                             {% if shop_images.all.0 %}
                             <div class="image-container">
-                                <img src="{{ shop_images.all.0.image.url }}"
-                                    alt="">
+                                <img src="{{ shop_images.all.0.image.url }}" alt="">
                             </div>
                             {% else %}
                             <div class="empty_box">
@@ -115,10 +112,12 @@
             <br>
             <div class="info row">
                 <div class="col-md-4">
-                    <input type="text" class="form-control" name="shop_name" placeholder="Shop Name" value="{{ store.shop_name }}">
+                    <input type="text" class="form-control" name="shop_name" placeholder="Shop Name"
+                        value="{{ store.shop_name }}">
                 </div>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="shop_address" placeholder="Address" value="{{ store.address }}">
+                    <input type="text" class="form-control" name="shop_address" placeholder="Address"
+                        value="{{ store.address }}">
                 </div>
             </div>
             <br>
@@ -129,15 +128,22 @@
         <br>
         <div class="content">
             <h2>Products</h2>
+            <a href="{% url 'CreateProductPage' %}" style="float:right" class="btn btn-primary">Add Product</a>
             <div class="row">
+                {% for product in products %}
                 <div class="col-md-4">
                     <div class="store_picture">
                         <div class="image-container">
-                            <img src="https://i.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU"
-                                alt="">
+                            <img src="{{ product.images.image.url }}" alt="">
+                        </div>
+                        <br>
+                        <div class="text-center">
+                            <h6>{{ product.title }}</h6>
+                            <span>{{ product.price }} /- pkr</span>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
         {% endif %}
@@ -148,7 +154,7 @@
     function update() {
         document.getElementById('btn_person').click()
         document.getElementById('btn_shop').click()
-        }
+    }
 </script>
 {% endif %}
 

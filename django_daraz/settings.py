@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-import dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = '4e8l9ie@)6qw)r-*puh6xvc_0$ay#loq_p1u5gs+s4=3ldz0kz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -71,8 +70,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django_daraz',
-        'USER': 'django_daraz',
-        'PASSWORD': 'P@ssword1',
+        'USER': 'admin',
+        'PASSWORD': 'password',
         'HOST':'localhost',
         'PORT':'3306',
     }
@@ -118,6 +117,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+STATIC_ROOT = 'staticfiles'
 
 MEDIA_URL = 'media/'
 

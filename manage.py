@@ -2,15 +2,11 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-import dotenv
-from dotenv import load_dotenv
-dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 
 
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_daraz.settings')
-    dotenv.load_dotenv('/home/wacky/Documents/Projects/django_daraz/.env')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
