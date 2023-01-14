@@ -37,6 +37,7 @@ class Shop(BaseModel):
     images=models.ManyToManyField(Picture)
     owner=models.ForeignKey(Person, on_delete=models.CASCADE)
     address=models.CharField(max_length=244, null=True)
+    tax = models.CharField(max_length=244, null=True, default='0')
 
     def __str__(self):
         return self.shop_name
@@ -48,15 +49,27 @@ class Product(BaseModel):
     title=models.CharField(max_length=244, null=True)
     price=models.CharField(max_length=244, null=True)
     stock=models.CharField(max_length=244, null=True)
+    tax = models.CharField(max_length=244, null=True, default='0')
 
     def __str__(self):
         return self.title
 
 
+
+class CartItem(BaseModel):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.CharField(max_length=244, null=True)
+    bill = models.CharField(max_length=244, null=True)
+    def __str__(self):
+        return self.product.title
+
+
+
 class Order(BaseModel):
     customer = models.ForeignKey(Person, on_delete=models.CASCADE, null=True)
-    products = models.ManyToManyField(Product)
+    cart_items = models.ManyToManyField(CartItem)
     description = models.TextField(null=True)
+    bill = models.CharField(max_length=244, null=True)
 
     def __str__(self):
         return str(self.id)

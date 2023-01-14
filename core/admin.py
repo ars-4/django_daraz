@@ -1,5 +1,5 @@
 from django.contrib import admin
-from core.models import Person, Order, Picture, Shop, Product
+from core.models import Person, Order, Picture, Shop, Product, CartItem
 
 # Register your models here.
 
@@ -8,7 +8,8 @@ REGISTERED_MODELS = [
     Picture,
     Shop,
     Product,
-    Order
+    Order,
+    CartItem
 ]
 
 admin.site.register(REGISTERED_MODELS)

@@ -14,10 +14,11 @@
                 </div>
                 <br>
                 <div class="content">
-                    <p>The Product has description maybe a long one but multi line atleast
+                    <p>{{ product.title }}
                         <br>
-                        <a href="{% url 'UserByUsername' product.seller.owner.username %}" class="text-dark">{{ product.seller }}</a>
-
+                        in just Rupees {{ product.price }} /-
+                        <br>
+                        By: <a href="{% url 'UserByUsername' product.seller.owner.username %}" class="text-dark">{{ product.seller }}</a>
                     </p>
                     <div class="form-control">
                         <span>&nbsp;</span>

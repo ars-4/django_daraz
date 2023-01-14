@@ -2,3 +2,5 @@ env/
 db.sqlite3
 media/
 media
+staticfiles/
+staticfiles
