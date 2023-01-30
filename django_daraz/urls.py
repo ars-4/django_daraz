@@ -14,6 +14,9 @@ urlpatterns = [
     path('', include("core.urls")),
     path('auth/', include("guardian.urls")),
 
+    path('store/', include("core.urls")),
+    path('store/auth/', include("guardian.urls")),
+
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT})
 ]

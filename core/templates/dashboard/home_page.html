@@ -5,31 +5,122 @@
 
 <div class="homepage">
 
-    <div class="products_section row">
-        {% for product in products %}
-        <div class="col-md-2">
-            <div class="product">
-                <div class="image-container">
-                    <img src="{{ product.images.image.url }}" alt="">
-                </div>
-                <br>
-                <div class="content">
-                    <p>{{ product.title }}
-                        <br>
-                        in just Rupees {{ product.price }} /-
-                        <br>
-                        By: <a href="{% url 'UserByUsername' product.seller.owner.username %}" class="text-dark">{{ product.seller }}</a>
-                    </p>
-                    <div class="form-control">
+    <div class="row">
+        <div class="products_section row col-md-8">
+            {% for product in products %}
+            <div class="col-md-4">
+                <div class="product">
+                    <div class="image-container">
+                        <img src="{{ product.images.image.url }}" alt="">
+                    </div>
+                    <br>
+                    <div class="content">
+                        <p>{{ product.title }}
+                            <br>
+                            in just Rupees {{ product.price }} /-
+                            <br>
+                            By:
+                            <a href="{% url 'UserByUsername' product.seller.owner.username %}"
+                                class="text-dark">{{product.seller }}</a>
+                        </p>
                         <span>&nbsp;</span>
-                        <input type="number" value="0">
-                        <a href="#" class="btn btn-primary fa fa-plus">&nbsp;Cart</a>
+                        {% if request.user == product.seller.owner.username %}
+                        <a class="btn btn-primary" href="{% url 'UpdateProductPage' product.id %}">Update</a>
+                        <button class="btn btn-danger">Delete</button>
+                        {% else %}
+                        <a onclick="add_to_cart( '{{ product.title }}', '{{ product.price }}', '{{ product.id }}' )"
+                            class="btn btn-primary">Add
+                            to cart</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+        <script>
+            let cart_items_list = [];
+            async function add_to_cart(product_title, product_price, product_id) {
+                let n = cart_items_list.length;
+                if (n <= 0) {
+                    let product_quantity = 1;
+                    cart_items_list.push([product_title, String(product_price), product_id, String(product_quantity)])
+                }
+                else {
+                    let temp_price = 0;
+                    for (let i = 0; i < n; i++) {
+                        if (cart_items_list[i][2] === product_id) {
+                            temp_price = Number(cart_items_list[i][1])
+                            cart_items_list.splice(i, 1);
+                            break;
+                        }
+                    }
+                    let x = Number(product_price) + temp_price;
+                    let product_quantity = x / Number(product_price)
+                    product_price = Number(product_price) + temp_price;
+                    cart_items_list.push([product_title, String(product_price), product_id, String(product_quantity)])
+                }
+                add_list()
+            }
+
+            async function add_list() {
+                const cart_table = document.getElementById('cart_table');
+                cart_table.innerHTML = `<tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Remove</th>
+                </tr>`;
+                let ctl = cart_items_list;
+                let indie;
+                for (let i = 0; i < ctl.length; i++) {
+                    let t1 = document.createElement('tr')
+                    indie = Number(ctl[i][1]) / Number(ctl[i][3])
+                    t1.innerHTML = `<td>${ctl[i][0]}</td><td>${indie} /-pkr</td><td>${ctl[i][3]}</td><td><button class="btn btn-danger" onclick="remove(${i})">Rem</button></td>`
+                    cart_table.appendChild(t1)
+                }
+            }
+
+            async function remove(id) {
+                let ide = Number(id);
+                cart_items_list.splice(id, 1);
+                add_list()
+            }
+
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+
+        </script>
+
+        <div class="col-md-3 cart_section">
+            <div class="row">
+                <div class="col-md-7">
+                    <h1>Cart</h1>
+                </div>
+                <div class="col-md-5">
+                    <form action="" method="post" id="order_creation_form">
+                        {% csrf_token %}
+                        <select name="cart_items" id="" multiple>
+                            <option value="one">One</option>
+                            <option value="two">One</option>
+                            <option value="['one', 'two']">One</option>
+                        </select>
+                        <button class="btn btn-primary">Add Order</button>
+                    </form>
+                </div>
+            </div>
+            <table id="cart_table" class="form-control">
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Remove</th>
+                </tr>
+            </table>
+        </div>
+
     </div>
+
 
 </div>
 

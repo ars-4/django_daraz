@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from core.decorators import multi_role
 from django.contrib.auth.models import User, Group
-from core.models import Person, Shop, Product, Picture
+from core.models import Person, Shop, Product, Picture, CartItem
 from django.contrib.auth.decorators import login_required
 from core.forms import PersonUpdateForm, ShopForm
 from core.utils import get_or_create_shop, add_image, update_shop
@@ -17,14 +17,26 @@ def index(request):
     yValues = [99, 55, 46, 32, 15]
     xValues = ["Area1", "Area2", "Area3", "Area4", "Area5"]
     context = {
-        'yValues':yValues,
-        'xValues':xValues
+        'yValues': yValues,
+        'xValues': xValues
     }
     return render(request, 'dashboard/dashboard.html', context)
 
 # Home
+
+
 @login_required(login_url='LoginPage')
 def home_page(request):
+    person = Person.objects.get(username=request.user)
+
+    if (request.method == 'POST'):
+        data = request.POST.getlist('cart_items')
+        
+        # cart = CartItem.objects.create(
+        #     product=data['product'],
+        #     quantity=data['quantity'],
+        #     bill=data['bill']
+        # )
     products = Product.objects.all()
     pictures = Picture.objects.all()
     context = {
@@ -32,8 +44,6 @@ def home_page(request):
         'pictures': pictures
     }
     return render(request, 'dashboard/home_page.html', context)
-
-
 
 
 # User
@@ -53,7 +63,7 @@ def user_read_page(request, username):
             shop_images = shop.images.all().order_by('-id')[:3]
 
     context = {
-        'person':person,
+        'person': person,
         'user': user,
         'store': shop,
         'shop_images': shop_images,
@@ -80,8 +90,7 @@ def user_page(request):
         products = Product.objects.filter(seller=shop)
         if shop.images:
             shop_images = shop.images.all().order_by('-id')[:3]
-    
-    
+
     if request.method == 'POST':
         form = PersonUpdateForm(request.POST, request.FILES, instance=person)
         if request.user.id == person.username.id:
@@ -95,23 +104,19 @@ def user_page(request):
                 form.save()
             return redirect('UserPage')
     context = {
-        'user':user,
-        'person':person,
-        'form':form,
-        'store':shop,
+        'user': user,
+        'person': person,
+        'form': form,
+        'store': shop,
         'shop_images': shop_images,
         'products': products
     }
     return render(request, 'user/user_home_page.html', context)
 
 
-
-
 # Store
 def store_view(request):
     return render(request, 'Store/store_page.html')
-
-
 
 
 # Product
@@ -130,7 +135,7 @@ def create_product(request):
         for item in allowed_products:
             if product_title_lower.__contains__(item):
                 product_title = data['product_title']
-        
+
         if product_title == 'the_blank':
             return redirect('CreateProductPage')
         else:
@@ -145,7 +150,7 @@ def create_product(request):
                 price=data['product_price'],
                 stock=data['product_stock'],
                 tax=shop.tax,
-                images = picture
+                images=picture
             )
             product.save()
             return redirect('UserPage')
@@ -154,7 +159,11 @@ def create_product(request):
 
 
 @login_required(login_url='LoginPage')
-def read_product(request, pk):
+@multi_role(allowed_roles=['seller'])
+def update_product(request, pk):
     product = Product.objects.get(id=pk)
-    context = {'product':product}
+    context = {'product': product}
     return render(request, 'product/read.html', context)
+
+
+# Cart
