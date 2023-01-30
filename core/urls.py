@@ -12,5 +12,5 @@ urlpatterns = [
     path('store/', views.store_view, name='StorePage'),
 
     path('product/create/', views.create_product, name='CreateProductPage'),
-    path('product/<str:pk>/', views.read_product, name='ReadProductPage')
+    path('product/<str:pk>/update/', views.update_product, name='UpdateProductPage')
 ]
