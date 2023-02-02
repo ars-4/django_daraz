@@ -50,7 +50,11 @@
         {% if person.username == request.user %}
         <button class="btn btn-primary" id="btn_person" onclick="update()">Update</button>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="btn btn-danger">Delete my account</button>
+        {% if request.user.groups.all.0.name == 'seller' %}
+        <a href="#" class="btn btn-danger">Delete my account</a>
+        {% elif request.user.groups.all.0.name == 'buyer' %}
+        <a href="{% url 'BecomeSellerPage' %}" class="btn btn-danger">Make me seller</a>
+        {% endif %}
         {% endif %}
     </form>
     <div class="col-md-9">

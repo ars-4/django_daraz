@@ -6,6 +6,8 @@ urlpatterns = [
     path('', views.index),
     path('home/', views.home_page, name='HomePage'),
 
+    path('become_seller/', views.become_seller_view, name='BecomeSellerPage'),
+
     path('user/', views.user_page, name='UserPage'),
     path('user/<str:username>/', views.user_read_page, name='UserByUsername'),
 
