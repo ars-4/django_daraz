@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="become_seller_page">
+    <br>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <form action="" method="post" class="content col-md-4">
+            {% csrf_token %}
+            <h3>Are you sure you want to become a seller?</h3>
+            <br>
+            <button class="btn btn-primary">Yes</button>
+            <a class="btn btn-danger" href="{% url 'UserPage' %}">Cancel</a>
+        </form>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+
+{% endblock %}

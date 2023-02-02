@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from core.decorators import multi_role
 from django.contrib.auth.models import User, Group
-from core.models import Person, Shop, Product, Picture, CartItem
+from core.models import Person, Shop, Product, Picture, CartItem, Order
 from django.contrib.auth.decorators import login_required
 from core.forms import PersonUpdateForm, ShopForm
 from core.utils import get_or_create_shop, add_image, update_shop
+import json
 
 # Create your views here.
 
@@ -14,8 +15,12 @@ from core.utils import get_or_create_shop, add_image, update_shop
 @login_required(login_url='LoginPage')
 @multi_role(allowed_roles=['admin'])
 def index(request):
-    yValues = [99, 55, 46, 32, 15]
-    xValues = ["Area1", "Area2", "Area3", "Area4", "Area5"]
+    yValues = []
+    xValues = []
+    for store in Shop.objects.all():
+        xValues.append(store.shop_name)
+        orders = Order.objects.filter(cart_items__product__seller=store)
+        yValues.append(orders.count())
     context = {
         'yValues': yValues,
         'xValues': xValues
@@ -31,12 +36,24 @@ def home_page(request):
 
     if (request.method == 'POST'):
         data = request.POST.getlist('cart_items')
-        
-        # cart = CartItem.objects.create(
-        #     product=data['product'],
-        #     quantity=data['quantity'],
-        #     bill=data['bill']
-        # )
+        order = Order.objects.create(
+            customer=person,
+            description = "Null",
+            bill = '0'
+        )
+        for item in data:
+            print(item)
+            splitted = item.split(',')
+            product = Product.objects.get(id=splitted[2])
+            cart = CartItem.objects.create(
+                product=product,
+                quantity=splitted[3],
+                bill=splitted[1]
+            )
+            cart.save()
+            order.cart_items.add(cart)
+            order.bill = str(int(order.bill) + int(cart.bill))
+        order.save()
     products = Product.objects.all()
     pictures = Picture.objects.all()
     context = {
@@ -44,6 +61,17 @@ def home_page(request):
         'pictures': pictures
     }
     return render(request, 'dashboard/home_page.html', context)
+
+
+@login_required(login_url='LoginPage')
+def become_seller_view(request):
+    if request.method == 'POST':
+        prev_group = Group.objects.get(name='buyer')
+        new_group = Group.objects.get(name='seller')
+        prev_group.user_set.remove(request.user)
+        new_group.user_set.add(request.user)
+        return redirect('UserPage')
+    return render(request, 'user/become_seller.html')
 
 
 # User

@@ -64,6 +64,7 @@
 
             async function add_list() {
                 const cart_table = document.getElementById('cart_table');
+                let select = document.getElementById('id_cart_items');
                 cart_table.innerHTML = `<tr>
                     <th>Name</th>
                     <th>Price</th>
@@ -71,12 +72,23 @@
                     <th>Remove</th>
                 </tr>`;
                 let ctl = cart_items_list;
+                select.innerHTML = "";
+                let total_bill = document.getElementById('total_payable_bill');
+                total_bill.innerHTML = "0"
                 let indie;
                 for (let i = 0; i < ctl.length; i++) {
                     let t1 = document.createElement('tr')
                     indie = Number(ctl[i][1]) / Number(ctl[i][3])
                     t1.innerHTML = `<td>${ctl[i][0]}</td><td>${indie} /-pkr</td><td>${ctl[i][3]}</td><td><button class="btn btn-danger" onclick="remove(${i})">Rem</button></td>`
                     cart_table.appendChild(t1)
+
+                    let option = document.createElement('option');
+                    option.innerHTML = ctl[i][0];
+                    option.value = String(ctl[i]);
+                    select.add(option)
+                    option.setAttribute('selected', true)
+
+                    total_bill.innerHTML = Number(total_bill.innerHTML) + Number(ctl[i][1])
                 }
             }
 
@@ -100,23 +112,26 @@
                 <div class="col-md-5">
                     <form action="" method="post" id="order_creation_form">
                         {% csrf_token %}
-                        <select name="cart_items" id="" multiple>
-                            <option value="one">One</option>
-                            <option value="two">One</option>
-                            <option value="['one', 'two']">One</option>
+                        <select name="cart_items" id="id_cart_items" multiple hidden>
                         </select>
                         <button class="btn btn-primary">Add Order</button>
                     </form>
                 </div>
             </div>
-            <table id="cart_table" class="form-control">
-                <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Qty</th>
-                    <th>Remove</th>
-                </tr>
-            </table>
+            <div class="form-control">
+                <table id="cart_table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Remove</th>
+                    </tr>
+                </table>
+                <hr>
+                <div>
+                    <span>Total Bill: &nbsp;</span><span id="total_payable_bill">0</span><span>/-pkr</span>
+                </div>
+            </div>
         </div>
 
     </div>
