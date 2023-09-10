@@ -23,19 +23,24 @@ body {
 
 /* Core */
 .nav {
-    background-color: rgba(244, 244, 244, 0.4);
-    backdrop-filter: blur(5px);
+    padding: 0px 15px;
 }
-.nav .brand-name {
+.nav .navbar {
+    background-color: rgba(244, 244, 244, 0.4);
+    backdrop-filter: blur(15px);
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav .navbar .brand-name {
     font-size: 40px;
 }
-.nav .brand-name a {
+.nav .navbar .brand-name a {
     text-decoration: none;
 }
 .nav .navbar .links {
     display:flex;
-    margin-left: 350%;
-    width: 100%;
 }
 @media screen and (max-width:400px) {
     .nav .navbar .links {
@@ -203,4 +208,23 @@ body {
     border-radius: 14px;
     width: 300px;
     padding: 20px;
+}
+
+
+.order_card {
+    padding: 15px 20px;
+    background-color: rgba(244, 244, 244, 0.5);
+    backdrop-filter: blur(15px);
+    border-radius: 14px;
+    margin: 8px;
+}
+.order_card td {
+    padding: 4px 8px;
+    border: 1px solid #242424;
+}
+.order_card tr.bold {
+    font-weight: bold;
+}
+.order_card tr.bold td {
+    border-width: 2px;
 }

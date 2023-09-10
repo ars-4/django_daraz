@@ -190,8 +190,52 @@ def create_product(request):
 @multi_role(allowed_roles=['seller'])
 def update_product(request, pk):
     product = Product.objects.get(id=pk)
+    allowed_products = [
+        'cake', 'mousse', 'brownie', 'shake', 'coffee', 'cookie', 'ice', 'cream', 'chocolate'
+    ]
+    user = User.objects.get(id=product.seller.owner.username.id)
+    if request.method == 'POST' and user == request.user:
+        data = request.POST
+        product_title = 'the_blank'
+        product_title_lower = data['product_title'].lower()
+        for item in allowed_products:
+            if product_title_lower.__contains__(item):
+                product_title = data['product_title']
+
+        if product_title == 'the_blank':
+            return redirect('UpdateProductPage', pk=pk)
+        else:
+            product.title = product_title
+            product.price = data['product_price']
+            product.stock = data['product_stock']
+            product.save()
+            return redirect('UserPage')
+
+    context = {'product': product, 'allowed_products':allowed_products}
+    return render(request, 'product/update.html', context)
+
+
+@login_required(login_url='LoginPage')
+@multi_role(allowed_roles=['seller'])
+def delete_product(request, pk):
+    product = Product.objects.get(id=pk)
+    user = User.objects.get(id=product.seller.owner.username.id)
+    if request.method == 'POST' and user == request.user:
+        product.delete()
+        return redirect('UserPage')
     context = {'product': product}
-    return render(request, 'product/read.html', context)
+    return render(request, 'product/delete.html', context)
 
 
-# Cart
+# Order
+@login_required(login_url='LoginPage')
+def get_orders(request):
+    orders = []
+    items = []
+    if(request.user.groups.all()[0].name == 'seller'):
+        orders = Order.objects.filter(cart_items__product__seller__owner__username=request.user).order_by('-id')
+        items = CartItem.objects.filter(product__seller__owner__username=request.user).order_by('-id')
+    elif(request.user.groups.all()[0].name == 'buyer'):
+        orders = Order.objects.filter(customer__username=request.user).order_by('-id')
+    context = {'orders': orders, 'items': items}
+    return render(request, 'order/get_orders.html', context)

@@ -132,7 +132,9 @@
         <br>
         <div class="content">
             <h2>Products</h2>
+            {% if person.username == request.user %}
             <a href="{% url 'CreateProductPage' %}" style="float:right" class="btn btn-primary">Add Product</a>
+            {% endif %}
             <div class="row">
                 {% for product in products %}
                 <div class="col-md-4">
@@ -144,6 +146,11 @@
                         <div class="text-center">
                             <h6>{{ product.title }}</h6>
                             <span>{{ product.price }} /- pkr</span>
+                            <br>
+                            {% if person.username == request.user %}
+                            <a href="{% url 'UpdateProductPage' product.id %}" class="btn btn-primary">Update</a>
+                            <a class="btn btn-danger" href="{% url 'DeleteProductPage' product.id %}">Delete</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
