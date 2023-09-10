@@ -26,7 +26,7 @@
                         <span>&nbsp;</span>
                         {% if request.user == product.seller.owner.username %}
                         <a class="btn btn-primary" href="{% url 'UpdateProductPage' product.id %}">Update</a>
-                        <button class="btn btn-danger">Delete</button>
+                        <a class="btn btn-danger" href="{% url 'DeleteProductPage' product.id %}">Delete</a>
                         {% else %}
                         <a onclick="add_to_cart( '{{ product.title }}', '{{ product.price }}', '{{ product.id }}' )"
                             class="btn btn-primary">Add
@@ -104,6 +104,7 @@
 
         </script>
 
+        {% if request.user.groups.all.0.name != 'seller' %}
         <div class="col-md-3 cart_section">
             <div class="row">
                 <div class="col-md-7">
@@ -133,6 +134,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
 
     </div>
 

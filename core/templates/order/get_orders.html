@@ -1,0 +1,63 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+
+    {% if request.user.groups.all.0.name == 'buyer' %}
+    {% for order in orders %}
+    <div class="col-md-3">
+        <div class="order_card">
+            <h3 style="margin:0; padding: 0;">{{ order.id }}<span style="font-size:10px;display:block">54321</span></h3>
+            <hr>
+            <table>
+                {% for item in order.cart_items.all %}
+                <tr>
+                    <td>{{ item.product }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.bill }}</td>
+                </tr>
+                {% endfor %}
+                <tr class="bold">
+                    <td>Total</td>
+                    <td>{{ order.cart_items.count }}</td>
+                    <td></td>
+                </tr>
+            </table>
+            <hr>
+            <span>{{order.seller}}</span>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% elif request.user.groups.all.0.name == 'seller' %}
+    {% for item in items %}
+    <div class="col-md-3">
+        <div class="order_card">
+            <h3 style="margin:0; padding: 0;">{{ item.id }}<span style="font-size:10px;display:block">54321</span></h3>
+            <hr>
+            <table>
+                <tr>
+                    <td>{{ item.product }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.bill }}</td>
+                </tr>
+            </table>
+            <hr>
+            {% for order in orders %}
+            {% for cart_item in order.cart_items.all %}
+            {% if cart_item == item %}
+            <span>{{ order.customer }}</span>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
